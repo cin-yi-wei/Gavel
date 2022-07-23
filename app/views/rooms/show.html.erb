@@ -77,7 +77,7 @@
                 </button>
                 <div data-room-target="biduser" class="flex justify-center px-auto h-36 items-center text-gray-500">
                   <% if @bid.any? %>
-                    <% @bid.each_with_index do |bid, i|%> 
+                    <% @bid.each_with_index do |bid, i|%>
                       <div style="padding: 5px 20px 5px 20px; display: flex; flex-direction: column; align-items: center;">
                         <%= image_tag("crown1.svg") %>
                         <%= image_tag User.find(bid.user_id).avatar, size:"60x60" ,class:"rounded-full bg-white items-center font-mono -mt-4"  %>
@@ -146,7 +146,7 @@
       </div>
     </div>
 
-    <div class="bottom md:flex md:flex-col md:px-10 md:mt-5" > 
+    <div class="bottom md:flex md:flex-col md:px-10 md:mt-5" >
       <div class="flex-box flex flex-col md:flex-row" >
 
         <div class="seller md:hidden md:px-10" >
@@ -173,7 +173,7 @@
               <span class="ml-32 text-gray-900 font-bold hover:text-gavel-blue" >
                 $<%= @room.product.start_price %>
               </span>
-            </p>  
+            </p>
           </div>
           <div class="product_information" >
             <h3 class="ml-5 mt-5 text-2xl text-center md:mt-0 md:border-b-4 md:pb-4 ">商品資訊</h3>
@@ -196,7 +196,9 @@
 
       </div>
     </div>
-
+    <% if @room.livestream %>
+      <video class="h-[720px] w-[1080px]" id="local_video" data-target="video.main" autoplay playsinline></video>
+    <% end %>
     <div class="fixedBar md:hidden fixed bottom-0 right-0 left-0 flex justify-around items-center bg-white box-border h-20 shadow-2xl whitespace-nowrap">
 
       <span data-countdown-message-value="${span} ${days} 天 ${hours} 小時 ${minutes} 分鐘 ${seconds} 秒" data-countdown-target="span">...</span>

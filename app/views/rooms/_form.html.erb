@@ -25,6 +25,15 @@
       <div class="text-center text-sm text-red-700"><%= room.errors[:maxpeople][0] %></div>
     <% end %>
   </div>
+  <div class="field my-5 mx-auto text-center">
+    <%= form.label :livestream, "直播代貨:" %>
+    <%= form.check_box :livestream, {class: "w-9/12 h-10 border py-1  focus:border-blue-900 border-gray-400 text-sm rounded"}%>
+    <!-- , true, false  -->
+    <!-- <input type="checkbox" name="room[livestream]" class="w-9/12 h-10 border py-1  focus:border-blue-900 border-gray-400 text-sm rounded" required= true> -->
+    <% if room.errors[:end_time].any? %>
+      <div class="text-center text-sm text-red-700"><%= room.errors[:maxpeople][0] %></div>
+    <% end %>
+  </div>
   <%= form.hidden_field "product_id" ,value: params["id"]  %>
   <%= form.hidden_field "id" ,value: params["id"]  %>
   <div class="actions pb-10">

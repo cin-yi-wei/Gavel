@@ -36,7 +36,7 @@ class RoomsController < ApplicationController
   private
   def room_params
     pid = params[:room][:product_id]
-    params.require(:room).permit(:start_time,:end_time,:status,:maxpeople).merge(product_id: pid,id: pid)
+    params.require(:room).permit(:start_time,:end_time,:status,:maxpeople,:livestream).merge(product_id: pid,id: pid)
 
   end
 

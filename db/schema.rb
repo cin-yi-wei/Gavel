@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_28_151945) do
+ActiveRecord::Schema.define(version: 2022_07_22_080023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2022_05_28_151945) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "end_time"
+    t.boolean "livestream"
     t.index ["product_id"], name: "index_rooms_on_product_id"
   end
 
