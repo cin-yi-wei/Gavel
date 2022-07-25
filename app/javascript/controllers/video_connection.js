@@ -19,10 +19,13 @@ class Connection {
     });
     console.log("this.peerConnection",this.peerConnection);
     this.peerConnection.ontrack = ({track, streams}) => {
+      console.log("video1video1video1video1video1video1");
+      console.log(streams[0]);
       this.remoteStreamTarget.srcObject = streams[0]
       console.log("<<< Received new track")
     }
     this.peerConnection.onicecandidate = ({candidate}) => {
+      console.log("ice candidate");
       if (candidate) {
 
         console.log(`<<< Received local ICE candidate from STUN/TURN server (${candidate.address})`)
@@ -39,17 +42,30 @@ class Connection {
         }
       }
     }
+    // this.peerConnection.onaddstream = ({ stream }) => {
+    //   // 接收流並顯示遠端視訊
+    //   console.log("video2video2video2video2video2video2video2video2video2video2video2");
+    //   this.remoteStreamTarget.srcObject = stream[0]
+    // }
   }
 
-  loadStream() {
-    for (const track of this.localStream.getTracks()) {
-      console.log(track);
-      this.peerConnection.addTrack(track, this.localStream)
+  loadStream(mode) {
+    switch(mode){
+      case "main":
+        for (const track of this.localStream.getTracks()) {
+          console.log("track",track);
+          this.peerConnection.addTrack(track, this.localStream)
+        }
+        break;
+      case "remote":
+        this.peerConnection.addTransceiver('video', { direction: 'recvonly' })
+        break;
     }
   }
 
-  createOffer() {
+  async createOffer() {
     let that = this;
+/*
     this.peerConnection.createOffer(
       function(offer) {
         console.log(">>> Sending offer to receivers")
@@ -64,6 +80,20 @@ class Connection {
         console.log(err)
       }
     )
+*/
+    try {
+      // 創建SDP信令
+      const localSDP = await this.peerConnection.createOffer()
+      // 設定本地SDP信令
+      await this.peerConnection.setLocalDescription(localSDP)
+      that.channel.send({
+        type: "OFFER",
+        name: that.identifier,
+        sdp: JSON.stringify(this.peerConnection.localDescription)
+      })
+    } catch (err) {
+      throw err
+    }
   }
 
   createAnswer(offer) {
@@ -72,7 +102,7 @@ class Connection {
     let rtcOffer = new RTCSessionDescription(offer);
     let that = this
     this.peerConnection.setRemoteDescription(rtcOffer);
-    this.loadStream()
+    this.loadStream("main")
     this.peerConnection.createAnswer(
       function(answer) {
         that.peerConnection.setLocalDescription(answer)

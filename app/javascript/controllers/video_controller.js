@@ -15,30 +15,33 @@ export default class extends Controller {
   constructor(props) {
     super(props)
     this.connection = new Connection
-    // if (!this.element.dataset.islivestreamer){
+    if (this.element.dataset.islivestreamer == "false"){
       this.connection.remoteStreamTarget = this.remoteTarget
-    // }
+    }
     this.channel = createDemoChannel("my-room", this.connection)
   }
   getUserMedia() {
-    navigator.mediaDevices.getUserMedia({
-      audio: false,//{echoCancellation: false},
-      video: { width: 1920, height: 720 }
-    }).then((stream) => {
-      this.connection.localStream = stream
-     if (this.element.dataset.islivestreamer){
+    if (this.element.dataset.islivestreamer == "true" ){
+      navigator.mediaDevices.getUserMedia({
+        audio: false,//{echoCancellation: false},
+        video: { width: 1920, height: 720 }
+      }).then((stream) => {
+        this.connection.localStream = stream
         this.mainTarget.srcObject = stream
-      }
+        this.channel.send({type: "TOKEN"})
+      })
+    }else{
       this.channel.send({type: "TOKEN"})
-      console.log("okkkk");
-    })
+    }
+
   }
 
   joinRoom() {
-    console.log("qqq");
-    // if (!this.element.dataset.islivestreamer){
-      this.connection.loadStream()
-    // }
+    if (this.element.dataset.islivestreamer == "true"){
+      this.connection.loadStream("main")
+    }else{
+      this.connection.loadStream("remote")
+    }
 
     this.connection.createOffer()
   }

@@ -17,7 +17,7 @@ const createDemoChannel = function(name, connection) {
       switch (data.type) {
         case "TOKEN":
           if (!connection.peerConnection) {
-            console.log("p2p");
+            console.log("get ice servers");
             connection.createPeerConnection(data.servers)
           }
           break;
