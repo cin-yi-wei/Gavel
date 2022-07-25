@@ -337,6 +337,8 @@ GEM
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
+    twilio_client (0.0.1)
+      twilio-ruby
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
@@ -405,6 +407,7 @@ DEPENDENCIES
   spring
   turbolinks (~> 5)
   twilio-ruby (~> 5.67)
+  twilio_client (~> 0.0.1)
   tzinfo-data
   validates_timeliness (~> 6.0.0.beta2)
   web-console (>= 4.1.0)
