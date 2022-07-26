@@ -15,10 +15,12 @@ export default class extends Controller {
   constructor(props) {
     super(props)
     this.connection = new Connection
+    this.connection.islivestreamer = this.element.dataset.islivestreamer
     if (this.element.dataset.islivestreamer == "false"){
       this.connection.remoteStreamTarget = this.remoteTarget
     }
-    this.channel = createDemoChannel("my-room", this.connection)
+    console.log("room",this.element.dataset.room_id);
+    this.channel = createDemoChannel(`room-${this.element.dataset.room_id}`, this.connection)
   }
   getUserMedia() {
     if (this.element.dataset.islivestreamer == "true" ){

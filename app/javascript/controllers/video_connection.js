@@ -5,11 +5,14 @@ class Connection {
   localStream
   remoteStreamTarget
   channel
-
+  islivestreamer
+  trackArray
   constructor() {
     this.identifier = nanoid()
     this.localICECandidates = []
     this.connected = false
+    this.islivestreamer = ""
+    this.trackArray = []
   }
 
   createPeerConnection(servers) {
@@ -19,8 +22,6 @@ class Connection {
     });
     console.log("this.peerConnection",this.peerConnection);
     this.peerConnection.ontrack = ({track, streams}) => {
-      console.log("video1video1video1video1video1video1");
-      console.log(streams[0]);
       this.remoteStreamTarget.srcObject = streams[0]
       console.log("<<< Received new track")
     }
@@ -42,6 +43,17 @@ class Connection {
         }
       }
     }
+    // this.peerConnection.oniceconnectionstatechange = (e) => {
+    //   console.log("client ice change",this.islivestreamer);
+    //   if (e.target.iceConnectionState === 'disconnected') {
+    //     if(this.islivestreamer == "true"){
+    //       this.connectionReset()
+    //       // this.remoteStreamTarget.srcObject  = null
+    //       console.log("closestreamer");
+    //     }
+    //   }
+    // }
+
     // this.peerConnection.onaddstream = ({ stream }) => {
     //   // 接收流並顯示遠端視訊
     //   console.log("video2video2video2video2video2video2video2video2video2video2video2");
@@ -50,11 +62,17 @@ class Connection {
   }
 
   loadStream(mode) {
+    // console.log("getTracksgetTracksgetTracksgetTracks",getTracks);
     switch(mode){
       case "main":
         for (const track of this.localStream.getTracks()) {
           console.log("track",track);
-          this.peerConnection.addTrack(track, this.localStream)
+          try {
+            this.trackArray.push(this.peerConnection.addTrack(track, this.localStream))
+          } catch (error) {
+
+          }
+
         }
         break;
       case "remote":
@@ -63,9 +81,8 @@ class Connection {
     }
   }
 
-  async createOffer() {
+  createOffer() {
     let that = this;
-/*
     this.peerConnection.createOffer(
       function(offer) {
         console.log(">>> Sending offer to receivers")
@@ -80,7 +97,8 @@ class Connection {
         console.log(err)
       }
     )
-*/
+
+/*
     try {
       // 創建SDP信令
       const localSDP = await this.peerConnection.createOffer()
@@ -94,6 +112,7 @@ class Connection {
     } catch (err) {
       throw err
     }
+    */
   }
 
   createAnswer(offer) {
@@ -127,14 +146,14 @@ class Connection {
     this.connected = true
     console.log("123");
     console.log(this.localICECandidates);
-    this.localICECandidates.forEach(candidate => {
-      console.log(`>>> Sending local ICE candidate (${candidate.address})`)
-      this.channel.send({
-        type: "CANDIDATE",
-        name: this.identifier,
-        sdp: JSON.stringify(candidate)
-      })
-    })
+    // this.localICECandidates.forEach(candidate => {
+    //   console.log(`>>> Sending local ICE candidate (${candidate.address})`)
+    //   this.channel.send({
+    //     type: "CANDIDATE",
+    //     name: this.identifier,
+    //     sdp: JSON.stringify(candidate)
+    //   })
+    // })
     console.log("456");
     this.localICECandidates = []
   }
@@ -143,6 +162,12 @@ class Connection {
     let rtcCandidate = new RTCIceCandidate(candidate);
     console.log(`<<< Adding ICE candidate (${rtcCandidate.address} - ${rtcCandidate.relatedAddress})`)
     this.peerConnection.addIceCandidate(rtcCandidate)
+  }
+  connectionReset(){
+    this.trackArray.forEach((track)=>{
+      this.peerConnection.removeTrack(track)
+    })
+    this.connected = false
   }
 }
 

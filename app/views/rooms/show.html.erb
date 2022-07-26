@@ -197,7 +197,8 @@
       </div>
     </div>
     <% if @room.livestream %>
-    <div data-controller="video" data-user="<%=current_user.id%>" data-islivestreamer="<%= current_user.id == @product.user.id %>"  class="">
+    <div data-controller="video" data-user="<%=current_user.id%>" data-islivestreamer="<%= current_user.id == @product.user.id %>"
+    data-room_id="<%=@room.id%>"  class="">
       <video class="h-[720px] w-[1080px]" id="local_video" data-target= "<%= current_user.id == @product.user.id ? 'video.main' : 'video.remote' %>"
       autoplay playsinline></video>
 

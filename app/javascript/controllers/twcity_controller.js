@@ -1,7 +1,7 @@
 import { Controller } from "stimulus";
 import TwCitySelector from "tw-city-selector";
 export default class extends Controller {
-  initialize() {
+  connect() {
     new TwCitySelector({
       countyFieldName: "user[county]",
       districtFieldName: "user[district]",
