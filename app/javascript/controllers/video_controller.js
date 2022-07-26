@@ -16,6 +16,9 @@ export default class extends Controller {
     super(props)
     this.connection = new Connection
     this.connection.islivestreamer = this.element.dataset.islivestreamer
+    console.log("ownerId",this.element.dataset.ownerid);
+    this.connection.roomOwnerId = this.element.dataset.ownerid
+    this.connection.identifier = this.element.dataset.user
     if (this.element.dataset.islivestreamer == "false"){
       this.connection.remoteStreamTarget = this.remoteTarget
     }

@@ -22,21 +22,33 @@ const createDemoChannel = function(name, connection) {
           }
           break;
         case "OFFER":
-          if (connection.identifier != data.name) {
+          if (connection.identifier == connection.roomOwnerId ) {
             let offer = JSON.parse(data.sdp)
-            connection.createAnswer(offer)
+            connection.createAnswer(offer,data.name)
           }
           break;
         case "ANSWER":
-          if (connection.identifier != data.name) {
+          console.log("debuggerrrdebuggerrrdebuggerrr");
+          console.log(connection.identifier,data.name);
+          if (connection.identifier == data.name) {
             let answer = JSON.parse(data.sdp)
             connection.receiveAnswer(answer)
           }
           break;
         case "CANDIDATE":
-          if (connection.identifier != data.name) {
-            let candidate = JSON.parse(data.sdp)
-            connection.addCandidate(candidate)
+          console.log("收到 ice_candidate");
+          console.log(connection.peerConnection.iceConnectionState);
+          let iceConnectionSuccessState = ["checking","connected","completed"]
+          if (data.name == "server"){
+            if ( !iceConnectionSuccessState.includes(connection.peerConnection.iceConnectionState) ) {
+              let candidate = JSON.parse(data.sdp)
+              connection.addCandidate(candidate)
+            }
+          }else{
+            if (connection.identifier == data.name) {
+              let candidate = JSON.parse(data.sdp)
+              connection.addCandidate(candidate)
+            }
           }
           break;
         default:

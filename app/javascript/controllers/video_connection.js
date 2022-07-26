@@ -7,12 +7,14 @@ class Connection {
   channel
   islivestreamer
   trackArray
+  roomOwnerId
   constructor() {
-    this.identifier = nanoid()
+    this.identifier = null//nanoid()
     this.localICECandidates = []
     this.connected = false
     this.islivestreamer = ""
     this.trackArray = []
+    // this.roomOwnerId = ""
   }
 
   createPeerConnection(servers) {
@@ -26,7 +28,8 @@ class Connection {
       console.log("<<< Received new track")
     }
     this.peerConnection.onicecandidate = ({candidate}) => {
-      console.log("ice candidate");
+      console.log("ice candidate debugerrr");
+      console.log(candidate);
       if (candidate) {
 
         console.log(`<<< Received local ICE candidate from STUN/TURN server (${candidate.address})`)
@@ -34,7 +37,10 @@ class Connection {
           console.log(`>>> Sending local ICE candidate (${candidate.address})`)
           this.channel.send({
             type: "CANDIDATE",
-            name: this.identifier,
+            // name: this.identifier,
+            name:  this.islivestreamer == "true" ? "server" : this.roomOwnerId,
+            // sender: ,
+            // receiver: ,
             sdp: JSON.stringify(candidate)
           })
         } else {
@@ -70,9 +76,7 @@ class Connection {
           try {
             this.trackArray.push(this.peerConnection.addTrack(track, this.localStream))
           } catch (error) {
-
           }
-
         }
         break;
       case "remote":
@@ -115,7 +119,7 @@ class Connection {
     */
   }
 
-  createAnswer(offer) {
+  createAnswer(offer,repliedUser) {
     console.log("<<< Answering to caller")
     this.connected = true
     let rtcOffer = new RTCSessionDescription(offer);
@@ -127,7 +131,7 @@ class Connection {
         that.peerConnection.setLocalDescription(answer)
         that.channel.send({
           type: "ANSWER",
-          name: that.identifier,
+          name: repliedUser,
           sdp: JSON.stringify(answer)
         })
       },
