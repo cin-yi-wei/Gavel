@@ -6,11 +6,11 @@ class VideoChannel < ApplicationCable::Channel
 
   def receive(data)
     case data["type"]
-    when "OFFER", "ANSWER", "CANDIDATE"
+    when "OFFER", "ANSWER", "CANDIDATE","CONNECT"
       ActionCable.server.broadcast(room_name, data)
     when "TOKEN"
       servers = TwilioClient.instance.tokens.create.ice_servers
-      ActionCable.server.broadcast(room_name, { type: "TOKEN", servers: servers })
+      ActionCable.server.broadcast(room_name, { type: "TOKEN", servers: servers,id: data['id'] })
     else
       puts "Unknown signal type: #{data['type']}"
     end
