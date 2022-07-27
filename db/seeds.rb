@@ -48,13 +48,13 @@ Tag.create(@tag_array)
 def user_img(slug)
   {io: open("https://robohash.org/#{slug}") , filename: slug+"_images.jpg"}
 end
-seller1 = User.create( email: "401031337@gapp.fju.edu.tw",password: "aaaaaa" ,password_confirmation: "aaaaaa" ,username: "趙小婷" ,role: "seller" )
+seller1 = User.create( email: "m95162000@gmail.com",password: "aaaaaa" ,password_confirmation: "aaaaaa" ,username: "趙小婷" ,role: "seller" )
 seller1.avatar.attach(user_img(seller1.id.to_s))
 
 seller2 = User.create( email: "m951620@yahoo.com.tw",password: "aaaaaa" ,password_confirmation: "aaaaaa" ,username: "秦小瑋" ,role: "seller" )
 seller2.avatar.attach(user_img(seller2.id.to_s))
 
-seller3 = User.create( email: "yc117602@hotmail.com",password: "aaaaaa" ,password_confirmation: "aaaaaa" ,username: "趙小儒" ,role: "seller" )
+seller3 = User.create( email: "m95162011@gmail.com",password: "aaaaaa" ,password_confirmation: "aaaaaa" ,username: "趙小儒" ,role: "seller" )
 seller3.avatar.attach(user_img(seller3.id.to_s))
 seller = [seller1,seller2,seller3]
 
@@ -63,7 +63,7 @@ def product_imgg(url,name)
   {io: open(url) , filename: "#{name}_images.jpg"}
 end
 
-5.times do
+1.times do
   products_list.each do |prod|
     ### PRODUCT
 
@@ -87,7 +87,7 @@ end
     }
     #ROOM
     r = Room.new(start_time: Time.now+ 30.seconds,
-                end_time: Faker::Time.between_dates(from: Date.today+2, to: Date.today + 30, period: :all),
+                end_time: Faker::Time.between_dates(from: Date.today+2, to: Date.today + 365, period: :all),
                 product_id: product.id,
                 id: product.id,
                 status: %w[未開賣 開賣中 結束競標].sample,
