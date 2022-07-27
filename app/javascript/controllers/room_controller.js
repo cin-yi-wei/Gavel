@@ -30,6 +30,12 @@ export default class extends Controller {
         thisController.listen();
       },
       received({ bid, message, user, endbid, bidder, username }) {
+
+        if (race_condition != undefined) {
+          if(user == thisController.element.dataset.user){
+            // confirm("您出價太快了!!!");
+          }
+        }
         if (bid != undefined) {
           if( bid == 0 ){
             if(user == thisController.element.dataset.user){

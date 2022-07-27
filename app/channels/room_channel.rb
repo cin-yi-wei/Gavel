@@ -46,10 +46,19 @@ class RoomChannel < ApplicationCable::Channel
         bid: data["price"],
         user: data["user"],
         username: User.find(data["user"]).username
+      else
+        # ActionCable.server.broadcast "Bid:#{data["room"]}",
+        # bid: -1,
+        # user: data["user"],
+        # username: User.find(data["user"]).username
+        ActionCable.server.broadcast "Bid:#{data["room"]}",
+        race_condition: "race_condition",
+        user: data["user"]
+        return
       end
 
     end
-    rescue => error
+    rescue ActiveRecord::StaleObjectError => e
       ActionCable.server.broadcast "Bid:#{data["room"]}",
       race_condition: "race_condition",
       user: data["user"]
