@@ -20,14 +20,22 @@
           <div>
             <div class=" flex justify-center " >
               <div class="h-72 w-72 md:h-96 md:w-96 " >
-                <%= link_to image_tag(product.images.first, class:"h-full w-full rounded-lg object-cover object-center" ), room_path(product.id) %>
+                <% if product.room %>
+                  <%= link_to image_tag(product.images.first, class:"h-full w-full rounded-lg object-cover object-center" ), room_path(product.id) %>
+                <% else %>
+                  <%= link_to image_tag(product.images.first, class:"h-full w-full rounded-lg object-cover object-center" ), new_room_path( id: product.id ) %>
+                <% end %>
               </div>
             </div>
             <div class="w-full bg-gray-200">
               <div class=" w-full flex flex-wrap justify-between">
                 <div class="flex w-full h-15">
                   <div class="flex items-center justify-center w-full">
-                  <%= link_to product.name , room_path(product.id), class: "truncate w-3/5 h-15 text-center text-2xl whitespace-wrap border-b-2 border-gray-400 py-2 md:font-bold "%>
+                  <% if product.room %>
+                    <%= link_to product.name , room_path(product.id), class: "truncate w-3/5 h-15 text-center text-2xl whitespace-wrap border-b-2 border-gray-400 py-2 md:font-bold "%>
+                  <% else %>
+                    <%= link_to product.name, new_room_path( id: product.id ),class: "truncate w-3/5 h-15 text-center text-2xl whitespace-wrap border-b-2 border-gray-400 py-2 md:font-bold" %>
+                  <% end %>
                   </div>
                 </div>
                 <div class="w-full my-4 flex justify-evenly items-center ">
