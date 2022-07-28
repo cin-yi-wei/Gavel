@@ -38,6 +38,9 @@ export default class extends Controller {
             if( !thisController.connections[data.id]?.connected ){
               thisController.connections[data.id]?.createPeerConnection( data.servers )
             }
+            if( thisController.element.dataset.user !=  thisController.element.dataset.ownerid ){
+              thisController.joinRoom()
+            }
             break;
           case "OFFER":
             if( thisController.element.dataset.user ==  thisController.element.dataset.ownerid ){
