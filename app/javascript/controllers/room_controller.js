@@ -29,7 +29,7 @@ export default class extends Controller {
       connected() {
         thisController.listen();
       },
-      received({ bid, message, user, endbid, bidder, username }) {
+      received({ bid, message, user, endbid, bidder, username,race_condition }) {
 
         if (race_condition != undefined) {
           if(user == thisController.element.dataset.user){

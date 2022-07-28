@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  extend FriendlyId
+  friendly_id :random_slug, use: :slugged
   include AASM
 
   aasm column: "status" do
@@ -26,4 +28,9 @@ class Order < ApplicationRecord
   belongs_to :product
   belongs_to :buyer, :class_name => "User"
   belongs_to :seller, :class_name => "User"
+
+  private
+  def random_slug
+    [*'a'..'z', *'0'..'9'].sample(10).join
+  end
 end

@@ -32,7 +32,7 @@ module Newebpay
 
     def set_info(order)
       info[:MerchantID] = @merchant_id
-      info[:MerchantOrderNo] = order.id
+      info[:MerchantOrderNo] = order.slug
       info[:Amt] = order.price
       info[:ItemDesc] = order.description
       info[:Email] = order.email

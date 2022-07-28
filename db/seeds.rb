@@ -87,7 +87,7 @@ end
     }
     #ROOM
     r = Room.new(start_time: Time.now+ 30.seconds,
-                end_time: Faker::Time.between_dates(from: Date.today+2, to: Date.today + 365, period: :all),
+                end_time: Faker::Time.between_dates(from: Date.today+300, to: Date.today + 365, period: :all),
                 product_id: product.id,
                 id: product.id,
                 status: %w[未開賣 開賣中 結束競標].sample,

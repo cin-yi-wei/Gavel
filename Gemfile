@@ -45,6 +45,7 @@ gem 'elasticsearch', '~> 6.0'
 gem 'searchkick', '~> 5.0.1', '>= 5.0.3'
 gem "aws-sdk-s3", require: false
 gem 'twilio_client', '~> 0.0.1'
+gem 'friendly_id', '~> 5.4', '>= 5.4.2'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'foreman', '~> 0.87.2'

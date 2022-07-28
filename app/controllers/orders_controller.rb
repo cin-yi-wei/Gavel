@@ -16,7 +16,7 @@ class OrdersController < ApplicationController
   end
 
   def check
-    @order = Order.find(params[:id])
+    @order = Order.friendly.find(params[:id])
     @form_info = Newebpay::Mpg.new(@order).form_info
     @MerchantID = @form_info[:MerchantID]
     @TradeInfo = @form_info[:TradeInfo]
@@ -26,7 +26,7 @@ class OrdersController < ApplicationController
 
   def return_response
     response = Newebpay::Mpgresponse.new(params[:TradeInfo])
-    order= Order.find(response.result["MerchantOrderNo"])
+    order= Order.friendly.find(response.result["MerchantOrderNo"])
     if response.status == "SUCCESS"
       order.pay!
       redirect_to buyer_order_orders_path, notice: '已付款成功'

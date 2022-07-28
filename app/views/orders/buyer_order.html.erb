@@ -30,24 +30,24 @@
       <tbody>
         <% @orders.each do |order| %>
           <tr class="text-center text-lg border-t-2 border-b-gray-200 bg-white">
-            <td class="py-6 px-6 whitespace-nowrap"><%= order.id %></td>
+            <td class="py-6 px-6 whitespace-nowrap"><%= order.slug %></td>
             <td class="truncate py-6 px-6 whitespace-nowrap"><%= order.product.name %></td>
             <td class="py-6 px-6 whitespace-nowrap"><%= order.price%></td>
             <td class="py-6 px-6"><%= order.product.room.end_time.strftime("%Y-%m-%d %H:%M") %></td>
             <td class="py-6 px-6 whitespace-nowrap"><%= Order.statusTW(order.status) %></td>
             <td class="py-6 px-6 whitespace-nowrap"><%=order.seller.username %> </td>
             <td class="py-6 px-6 whitespace-nowrap">
-            <% if order.status == "pending" %> 
-              <%= link_to "付款" , check_order_path(order.id),class:"inline-block whitespace-nowrap bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white text-base" %>
+            <% if order.status == "pending" %>
+              <%= link_to "付款" , check_order_path(order.slug),class:"inline-block whitespace-nowrap bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white text-base" %>
             <% end %>
             <% if order.status == "paid" %>
               <div class="inline-block whitespace-nowrap bg-gray-300 px-6 py-3 rounded-full text-white text-base">已付款</div>
             <% end %>
             <% if order.status == "failed"  %>
-              <%= link_to "付款" , check_order_path(order.id),class:"inline-block whitespace-nowrap bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white text-base" %>
+              <%= link_to "付款" , check_order_path(order.slug),class:"inline-block whitespace-nowrap bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white text-base" %>
             <% end %>
             <% if order.status == "cancelled" %>
-              <%= link_to "付款" , check_order_path(order.id),class:"inline-block whitespace-nowrap bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white text-base" %>
+              <%= link_to "付款" , check_order_path(order.slug),class:"inline-block whitespace-nowrap bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white text-base" %>
             <% end %>
             </td>
           </tr>
