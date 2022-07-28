@@ -41,7 +41,7 @@ class RoomsController < ApplicationController
   end
 
   def room_params_update
-    params.require(:room).permit(:start_time,:end_time,:status,:maxpeople)
+    params.require(:room).permit(:start_time,:end_time,:status,:maxpeople,:livestream)
   end
 
   def find_room
